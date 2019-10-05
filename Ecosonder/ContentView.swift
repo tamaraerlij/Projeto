@@ -7,9 +7,33 @@
 
 import SwiftUI
 
-struct ContentView : View {
+struct Categoria: Identifiable {
+        let id: Int
+        let title : String
+        let color : Color
+
+    let categorias : [Categoria] = [
+        .init(id: 0, title: "Energia", color: .yellow),
+        .init(id: 1, title: "Moda", color: .pink),
+        .init(id: 2, title: "Alimentos e bebidas", color: .green)
+    ]
+}
+
+
+struct Evento: Identifiable {
+    let id: Int
+    let name, imageName: String
     
-  let categorias = ["1", "2", "3", "4", "5"]
+    static let eventos: [Evento] = [
+        .init(id: 1, name: "Primeiro evento!", imageName: "evento"),
+        .init(id: 2, name: "Segundo evento!", imageName: "evento"),
+    ]
+}
+
+
+struct ContentView : View {
+
+    let categorias = [Categoria].self
     
  @State var expanded: Bool = false
  
@@ -29,38 +53,98 @@ struct ContentView : View {
 //           .offset(x: 100, y: 80)
 //            .animation(.spring())
          //   Spacer()
+        
+        
           NavigationView {
             List {
-                
+               VStack (alignment: .leading) {
+                      Text("Eventos principais")
                 ScrollView {
-                    VStack (alignment: .leading) {
-                        Text("Eventos principais")
+                    VStack(alignment: .leading) {
                     HStack {
-                          Text("Evento 1")
-                          Text("Evento 2")
-                          Text("Evento 3")
-                          Text("Evento 4")
-                          Text("Evento 5")
-                          Text("Evento 6")
-                          Text("Evento 7")
-                          Text("Evento 8")
-                          Text("Evento 9")
+                        NavigationLink(destination: EventoDetailView()) {
+            EventoView()
+                        }
+                            EventoView()
+                             EventoView()
+                             EventoView()
                     }
                     }
-                }.frame(height: 150)
-                ForEach(categorias,  id: \.self) { categoria in
-                        Text(categoria)
-
+                }.frame(height: 200)
                 }
-//                CategoriasView(title: "Energia", color: .yellow)
-//                CategoriasView(title: "Moda", color: .pink)
-            } .navigationBarTitle(Text("Grupos"))
+                Text("Categorias")
+                VStack {
+                        CategoriaView()
+                        Categoria2View()
+                        CategoriaView()
+                        CategoriaView()
+                    
+//
+//              CategoriaView.init(categorias: Categoria.init(id: 1, title: "Moda", color: .pink))
+                              
+                    }
+            }
+                
+ 
+            } .navigationBarTitle(Text("Eventos"))
         }
  
         }
+    
+struct EventoView : View {
+    var body : some View {
+        VStack (alignment: .leading) {
+            Image("evento").renderingMode(.original).resizable()
+            Text("Evento 1").lineLimit(nil).padding(.leading, 0)
+        }.frame(width: 110, height: 170)
     }
-//}
+    }
 
+struct CategoriaView: View {
+ //  let categorias : Categoria
+    
+    var body: some View {
+          ZStack() {
+            Rectangle()
+                        .fill(Color.yellow)
+                        .cornerRadius(10)
+                        .frame(width: 350, height: 50)
+            
+                    Text("Energia")
+                        .font(.largeTitle)
+                        .bold()
+                        .foregroundColor(.white)
+                }.shadow(radius: 6)
+            }
+        }
+
+struct Categoria2View: View {
+//  let categorias : Categoria
+   
+   var body: some View {
+
+         ZStack() {
+           Rectangle()
+                       .fill(Color.pink)
+                       .cornerRadius(10)
+                       .frame(width: 350, height: 50)
+           
+                   Text("Moda")
+                       .font(.largeTitle)
+                       .bold()
+                       .foregroundColor(.white)
+               }.shadow(radius: 6)
+           }
+       }
+
+
+
+
+struct EventoDetailView : View {
+    var body : some View {
+        Text("oiiii")
+    }
+}
 
 struct CardView : View {
     
@@ -82,26 +166,26 @@ struct CardView : View {
     }
 }
 
-
-struct CategoriasView : View {
-    
-    let title : String
-    let color : Color
-    
-    var body: some View {
-        ZStack {
-            Rectangle()
-                .fill(color)
-                .cornerRadius(10)
-                .frame(width: 400, height: 50)
-            
-            Text(title)
-                .font(.largeTitle)
-                .bold()
-                .foregroundColor(.white)
-        }.shadow(radius: 6)
-    }
-}
+//
+//struct CategoriasView : View {
+//
+//    let title : String
+//    let color : Color
+//
+//    var body: some View {
+//        ZStack {
+//            Rectangle()
+//                .fill(color)
+//                .cornerRadius(10)
+//                .frame(width: 400, height: 50)
+//
+//            Text(title)
+//                .font(.largeTitle)
+//                .bold()
+//                .foregroundColor(.white)
+//        }.shadow(radius: 6)
+//    }
+//}
 
 
 
@@ -115,6 +199,3 @@ struct ContentView_Previews: PreviewProvider {
 }
 #endif
 
-//
-//CategoriasView(title: "Energia", color: .yellow)
-//CategoriasView(title: "Moda", color: .pink)
